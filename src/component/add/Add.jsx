@@ -8,18 +8,15 @@ import {
   Slider,
   TextField,
   Checkbox,
-  Box,
   Radio,
   RadioGroup,
   FormControlLabel,
-} from "@material-ui/core";
+} from "@mui/material";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
+import employeeService from "../../service/employeeService";
 
-function textValue(value) {
-  return `${value}`;
-}
 export default class add extends Component {
   constructor() {
     super();
@@ -76,9 +73,15 @@ export default class add extends Component {
       startDate: this.state.startDate,
       note: this.state.note,
     };
+    employeeService.addEmployee(employee).then((data) => {}).catch((error) => {
+      console.log(error);
+  })
     console.log(employee);
-    // console.log("textValue: "+textValue.value);
   };
+
+  // addEmployee(){
+  //   employeeService.addEmployee()
+  // }
 
   departments = [
     { name: "Sales", value: "Sales" },
@@ -189,12 +192,12 @@ export default class add extends Component {
                 onChange={this.changeGenderHandler}
               >
                 <FormControlLabel
-                  value="Male"
+                  value="male"
                   control={<Radio />}
                   label="Male"
                 />
                 <FormControlLabel
-                  value="Female"
+                  value="female"
                   control={<Radio />}
                   label="Female"
                 />
@@ -221,36 +224,14 @@ export default class add extends Component {
               <FormLabel component="legend" className="label text">
                 Salary
               </FormLabel>
-              {/* <Slider
+              <Slider
                 valueLabelDisplay="auto"
-                getAriaValueText={textValue}
-                defaultValue={this.state.salary}
+                defaultValue={400000}
                 step={1000}
-                min={0}
+                min={300000}
                 max={500000}
                 // value={this.state.salary}
-                onChange={this.changeSalaryHandler}/> */}
-              <Box sx={{ width: 10000 }}>
-                <Slider
-                  valueLabelDisplay="auto"
-                  defaultValue={400}
-                  step={10}
-                  min={300}
-                  max={500}
-                  // value={this.state.salary}
-                  onChange={this.changeSalaryHandler}
-                />
-              </Box>
-              {/* <Box sx={{ width: 1000 }}>
-                <Slider
-                  defaultValue={400000}
-                  valueLabelDisplay="auto"
-                  step={1000}
-                  min={300000}
-                  max={500000}
-                  onChange={this.changeSalaryHandle}
-                />
-              </Box> */}
+                onChange={this.changeSalaryHandler}/>
             </div>
 
             {/* Input StartDate */}

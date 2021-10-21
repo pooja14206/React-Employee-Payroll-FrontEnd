@@ -3,6 +3,7 @@ import Header from "../header/Header";
 import "./Home.css";
 import employeeService from "../../service/employeeService";
 import { Link } from "react-router-dom";
+
 export default class home extends Component {
   constructor(props) {
     super(props);
@@ -82,7 +83,7 @@ export default class home extends Component {
                       {" "}
                       <img className="profile" src={emp.profilePic} alt="" />
                     </td>
-                    <td>{emp.name}</td>
+                    <td>{emp.fullName}</td>
                     <td>{emp.gender}</td>
                     <td>
                       {emp.department.map((dept) => (

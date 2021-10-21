@@ -1,15 +1,16 @@
-import Axios from "axios";
+const httpService = require('./axios');
 
-const BASE_URL = "http://localhost:8080";
 const GET_EMPLOYEE_URL = "/employeepayrollservice/get";
 const DELETE_EMPLOYEE_URL = "/employeepayrollservice/delete/";
+const ADD_EMPLOYEE_URL = "/employeepayrollservice/create";
 
-class employeeService {
-
-    getEmployee() { return Axios.get(BASE_URL + GET_EMPLOYEE_URL);}
-
-    deleteEmployee(id) { return Axios.delete(BASE_URL + DELETE_EMPLOYEE_URL + id); }
-    
-}
-
-export default new employeeService();
+exports.getEmployee = () => { return httpService.getEmployee(GET_EMPLOYEE_URL)}
+exports.deleteEmployee = (id) => { return httpService.deleteEmployee(DELETE_EMPLOYEE_URL, id)}
+exports.addEmployee = (body) => { 
+    // httpHeader: {
+    //     headers:{'Context-Type':'application/json'}
+    // }
+    // let  httpHeader={headers:{
+    //     'Content-Type':'application/json'
+    //     }}
+    return httpService.addEmployee(ADD_EMPLOYEE_URL, body)}
