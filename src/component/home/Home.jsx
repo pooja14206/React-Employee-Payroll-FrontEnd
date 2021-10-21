@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Header from "../header/Header";
 import "./Home.css";
 import employeeService from "../../service/employeeService";
-
+import { Link } from "react-router-dom";
 export default class home extends Component {
   constructor(props) {
     super(props);
@@ -51,10 +51,11 @@ export default class home extends Component {
               <div className="emp-count">{this.emoloyeeCount}</div>
             </div>
             {/* add button redirect to the add page to add a new employee */}
-            {/* <Link className="add-button" href="/add" > */}
             <div className="add-button">
+              <Link to="/add" className="text-link">
               <img src="./assets/plus.png" alt="Add User Logo" />
               Add User
+              </Link>
             </div>
             {/* </Link>     */}
             {/* </img> */}

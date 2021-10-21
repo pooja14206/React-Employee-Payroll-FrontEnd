@@ -9,6 +9,7 @@ class employeeService {
     getEmployee() { return Axios.get(BASE_URL + GET_EMPLOYEE_URL);}
 
     deleteEmployee(id) { return Axios.delete(BASE_URL + DELETE_EMPLOYEE_URL + id); }
+    
 }
 
 export default new employeeService();

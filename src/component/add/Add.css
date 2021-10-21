@@ -6,7 +6,10 @@
     align-items: center;
     border: 0px solid green;
   }
-  
+  .text-link{
+    color: inherit;
+    text-decoration: inherit;
+  }
   .form {
     width: 65%;
     padding: 44px 60px;
