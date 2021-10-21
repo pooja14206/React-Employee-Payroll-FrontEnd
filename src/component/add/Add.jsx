@@ -1,27 +1,98 @@
 import React, { Component } from "react";
 import Header from "../header/Header";
 import "./Add.css";
-import TextField from "@material-ui/core/TextField";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormGroup from "@material-ui/core/FormGroup";
-import Slider from "@material-ui/core/Slider";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import { FormLabel } from "@material-ui/core";
-import { Fragment, useState } from "react";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+import {
+  Button,
+  FormLabel,
+  TextareaAutosize,
+  Slider,
+  TextField,
+  Checkbox,
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+} from "@material-ui/core";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Link } from "react-router-dom";
 
+function textValue(value) {
+  return `${value}`;
+}
 export default class add extends Component {
-  // keyboardDatePickerExample(props) {
-  //   const [selectedDate, handleDateChange] = useState(new Date());}
+  constructor() {
+    super();
+    this.state = {
+      fullName: "",
+      profilePic: "",
+      gender: "",
+      department: [],
+      salary: "",
+      startDate: new Date(),
+      note: "",
+    };
+    this.changeSalaryHandler = this.changeSalaryHandler.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  changeFullNameHandler = (event) => {
+    this.setState({ fullName: event.target.value });
+  };
+  changeProfilePicHandler = (event) => {
+    this.setState({ profilePic: event.target.value });
+  };
+  changeGenderHandler = (event) => {
+    this.setState({ gender: event.target.value });
+  };
+  changeDepartmentHandler = (event) => {
+    var dept = event.target.value;
+    this.setState((lastState) => ({
+      department: [...lastState.department, dept],
+    }));
+  };
+  changeSalaryHandler = (event) => {
+    // this.setState({ salary: event.target.value });
+    // console.log(event.target.value);
+    this.setState({ salary: event.target.value });
+    console.log(event.target.value);
+  };
+  changeStartDateHandler = (event) => {
+    this.setState({ startDate: event });
+  };
+  changeNoteHandler = (event) => {
+    this.setState({ note: event.target.value });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log(this.state);
+    const employee = {
+      fullName: this.state.fullName,
+      profilePic: this.state.profilePic,
+      gender: this.state.gender,
+      department: this.state.department,
+      salary: this.state.salary,
+      startDate: this.state.startDate,
+      note: this.state.note,
+    };
+    console.log(employee);
+    // console.log("textValue: "+textValue.value);
+  };
+
+  departments = [
+    { name: "Sales", value: "Sales" },
+    { name: "HR", value: "HR" },
+    { name: "Engineer", value: "Engineer" },
+    { name: "Finance", value: "Finance" },
+    { name: "Other", value: "Other" },
+  ];
   render() {
     return (
       <div>
         <Header></Header>
         <div className="form-content">
-          <form className="form">
+          <form className="form" onSubmit={this.handleSubmit}>
             {/* Input Name */}
             <div className="form-head">Employee Payroll form </div>
             <div className="row-content">
@@ -31,7 +102,8 @@ export default class add extends Component {
               <TextField
                 fullWidth
                 label="Full Name"
-                label="Your Name"
+                value={this.state.fullName}
+                onChange={this.changeFullNameHandler}
                 variant="outlined"
               />
             </div>
@@ -46,6 +118,8 @@ export default class add extends Component {
                 <RadioGroup
                   row
                   aria-label="profile"
+                  value={this.state.profilePic}
+                  onChange={this.changeProfilePicHandler}
                   name="row-radio-buttons-group"
                 >
                   <FormControlLabel
@@ -90,7 +164,7 @@ export default class add extends Component {
                   <FormControlLabel
                     name="profile"
                     control={<Radio />}
-                    value="../assets/Ellipse8.png"
+                    value="../assets/Ellipse9.png"
                     label={
                       <img
                         className="profile"
@@ -109,7 +183,11 @@ export default class add extends Component {
               <FormLabel component="legend" className="label text">
                 Gender
               </FormLabel>
-              <RadioGroup row>
+              <RadioGroup
+                row
+                value={this.state.gender}
+                onChange={this.changeGenderHandler}
+              >
                 <FormControlLabel
                   value="Male"
                   control={<Radio />}
@@ -128,13 +206,14 @@ export default class add extends Component {
               <FormLabel component="legend" className="label text">
                 Department
               </FormLabel>
-              <FormGroup row>
-                <FormControlLabel control={<Checkbox />} label="HR" />
-                <FormControlLabel control={<Checkbox />} label="Sales" />
-                <FormControlLabel control={<Checkbox />} label="Finance" />
-                <FormControlLabel control={<Checkbox />} label="Engineer" />
-                <FormControlLabel control={<Checkbox />} label="Others" />
-              </FormGroup>
+              {this.departments.map((department) => (
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label={department.name}
+                  value={department.name}
+                  onChange={this.changeDepartmentHandler}
+                />
+              ))}
             </div>
 
             {/* Imput Salary */}
@@ -142,20 +221,48 @@ export default class add extends Component {
               <FormLabel component="legend" className="label text">
                 Salary
               </FormLabel>
-              <Slider size="small" defaultValue={70} valueLabelDisplay="auto" />
+              {/* <Slider
+                valueLabelDisplay="auto"
+                getAriaValueText={textValue}
+                defaultValue={this.state.salary}
+                step={1000}
+                min={0}
+                max={500000}
+                // value={this.state.salary}
+                onChange={this.changeSalaryHandler}/> */}
+              <Box sx={{ width: 10000 }}>
+                <Slider
+                  valueLabelDisplay="auto"
+                  defaultValue={400}
+                  step={10}
+                  min={300}
+                  max={500}
+                  // value={this.state.salary}
+                  onChange={this.changeSalaryHandler}
+                />
+              </Box>
+              {/* <Box sx={{ width: 1000 }}>
+                <Slider
+                  defaultValue={400000}
+                  valueLabelDisplay="auto"
+                  step={1000}
+                  min={300000}
+                  max={500000}
+                  onChange={this.changeSalaryHandle}
+                />
+              </Box> */}
             </div>
 
             {/* Input StartDate */}
-            <FormLabel component="legend" className="label text">
-              Start Date
-            </FormLabel>
-            {/* <Fragment>
-              <KeyboardDatePicker
-                placeholder="10/10/2018"
-                minDate={new Date()}
-                format="MM/dd/yyyy"
+            <div className="row-content">
+              <FormLabel component="legend" className="label text">
+                Start Date
+              </FormLabel>
+              <DatePicker
+                selected={this.state.startDate}
+                onChange={this.changeStartDateHandler}
               />
-            </Fragment> */}
+            </div>
             <div className="row-content"></div>
 
             {/* Input Notes */}
@@ -164,10 +271,30 @@ export default class add extends Component {
                 Note
               </FormLabel>
               <TextareaAutosize
+                value={this.state.note}
+                onChange={this.changeNoteHandler}
                 minRows={5}
                 placeholder="Minimum 3 rows"
                 style={{ width: 999 }}
               />
+            </div>
+            <div className="buttonParent">
+              <Link to="/" className="text-link">
+                {/* cancel button for cancel and go back to home page */}
+                <Button className="resetButton button cancelButton">
+                  Cancel
+                </Button>
+              </Link>
+              <div className="submit-reset">
+                {/* add button for add new employee to the employee payroll data */}
+                <Button type="submit" className="button submitButton">
+                  Submit
+                </Button>
+                {/* reset button for reset the values */}
+                <Button type="reset" className="resetButton button">
+                  Reset
+                </Button>
+              </div>
             </div>
           </form>
         </div>
